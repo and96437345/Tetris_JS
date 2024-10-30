@@ -91,11 +91,23 @@ const collisionDetection = (figureArr, x, y) => {
     }  
 }
 
+const changeFigure = () => {
+    figure = Math.floor(Math.random() * 7);
+    if (figure == 0) return figureO;
+    if (figure == 1) return figureT;
+    if (figure == 2) return figureS;
+    if (figure == 3) return figureZ;
+    if (figure == 4) return figureJ;
+    if (figure == 5) return figureL;
+    if (figure == 6) return figureI;
+}
+
 let y = 0;
 let x = 3;
-let figure = figureI;
+let figure;
 let timerId;
 const moveDown = (figure) => {
+    
     clearGameMap();
     
     displayFigure(figure, x, y);
@@ -104,6 +116,8 @@ const moveDown = (figure) => {
         y++;
     } else {
         y = 0;
+        clearInterval(timerId);
+        gameLoop();
     }
     document.addEventListener('keydown', function(event) {
         console.log(event.code);
@@ -122,15 +136,16 @@ const moveDown = (figure) => {
       }, { once: true });
     displayGameMap();
     clearFigure(figure, x, y);
+        
 };
-const gameLoop = (figure) => {
-    timerId = setInterval(() => moveDown(figure), 200);
+const gameLoop = () => {
+    figure = changeFigure();
+    timerId = setInterval(() => moveDown(figure), 300);
 // 
 }
 
-
 createGameMap();
-gameLoop(figure);
+gameLoop();
 
 
 // clearGameMap();
