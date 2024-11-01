@@ -102,10 +102,34 @@ const changeFigure = () => {
     if (figure == 6) return figureI;
 }
 
+const rotateFigure = (figure) => {
+    for (let i = 0; i < figure.length; i++) {
+        for (let j = 0; j < figure[i].length + 0; j++) {
+            figure[i][j] = figure[j][i];
+        }       
+    }
+    return figure;
+}
+
 let y = 0;
 let x = 3;
 let figure;
 let timerId;
+document.addEventListener('keydown', function(event) {
+    console.log(event.code);
+    if (event.code == 'ArrowLeft') {
+        x -= 1;
+    }
+    if (event.code == 'ArrowRight') {
+        x += 1;
+    }
+    if (event.code == 'ArrowUp') {
+        figure = rotateFigure(figure);
+    }
+    if (event.code == 'ArrowDown') {
+        y += 1;
+    }
+  });
 const moveDown = (figure) => {
     
     clearGameMap();
@@ -119,28 +143,14 @@ const moveDown = (figure) => {
         clearInterval(timerId);
         gameLoop();
     }
-    document.addEventListener('keydown', function(event) {
-        console.log(event.code);
-        if (event.code == 'ArrowLeft') {
-            x -= 1;
-        }
-        if (event.code == 'ArrowRight') {
-            x += 1;
-        }
-        if (event.code == 'ArrowUp') {
-        
-        }
-        if (event.code == 'ArrowDown') {
-            y += 1;
-        }
-      }, { once: true });
+
     displayGameMap();
     clearFigure(figure, x, y);
         
 };
 const gameLoop = () => {
     figure = changeFigure();
-    timerId = setInterval(() => moveDown(figure), 300);
+    timerId = setInterval(() => moveDown(figure), 500);
 // 
 }
 
