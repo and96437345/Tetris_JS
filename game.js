@@ -31,31 +31,39 @@ const displayGameMap = () => {
 }
 
 const figureO = [
-    [0, 1, 1],
-    [0, 1, 1]
+    [1, 1],
+    [1, 1]
 ];
 const figureT = [
+    [0, 0, 0],
     [1, 1, 1],
-    [0, 1, 0],
+    [0, 1, 0]
 ];
 const figureS = [
+    [0, 0, 0],
     [0, 1, 1],
     [1, 1, 0]
 ];
 const figureZ = [
+    [0, 0, 0],
     [1, 1, 0],
     [0, 1, 1]
 ];
 const figureJ = [
+    [0, 0, 0],
     [1, 1, 1],
     [0, 0, 1]
 ];
 const figureL = [
+    [0, 0, 0],
     [1, 1, 1],
     [1, 0, 0]
 ];
 const figureI = [
+    [0, 0, 0, 0],
     [1, 1, 1, 1],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
     
 ];
 
@@ -102,20 +110,25 @@ const changeFigure = () => {
     if (figure == 6) return figureI;
 }
 
+const reverse = (figure) =>  figure.map(row => row.reverse());
 const rotateFigure = (figure) => {
+    let newFigure = [];
     for (let i = 0; i < figure.length; i++) {
-        for (let j = 0; j < figure[i].length + 0; j++) {
-            figure[i][j] = figure[j][i];
+        newFigure[i] = [];
+        for (let j = 0; j < figure[i].length; j++) {
+            newFigure[i][j] = figure[j][i];           
         }       
     }
-    return figure;
+    console.log(newFigure);
+    return newFigure;
 }
 
 let y = 0;
 let x = 3;
 let figure;
 let timerId;
-document.addEventListener('keydown', function(event) {
+let speed = 500;
+document.addEventListener('keydown', (event) => {
     console.log(event.code);
     if (event.code == 'ArrowLeft') {
         x -= 1;
@@ -124,12 +137,13 @@ document.addEventListener('keydown', function(event) {
         x += 1;
     }
     if (event.code == 'ArrowUp') {
-        figure = rotateFigure(figure);
+        figure = reverse(rotateFigure(figure));
     }
     if (event.code == 'ArrowDown') {
         y += 1;
     }
-  });
+});
+
 const moveDown = (figure) => {
     
     clearGameMap();
@@ -148,15 +162,11 @@ const moveDown = (figure) => {
     clearFigure(figure, x, y);
         
 };
+
 const gameLoop = () => {
     figure = changeFigure();
-    timerId = setInterval(() => moveDown(figure), 500);
-// 
+    timerId = setInterval(() => moveDown(figure), speed);
 }
 
 createGameMap();
 gameLoop();
-
-
-// clearGameMap();
-console.log(gameMap);
